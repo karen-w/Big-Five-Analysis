@@ -2,9 +2,7 @@ Big Five Analysis
 ================
 
 This is an example showing how to analyze and generate various plots including radar
-charts, dendrograms, bar plots and PCA plots using dummy data of the Big Five
-Personality Test. The Big Five Personality Test is a free, open-source
-test consisting of 120 simple questions. You can learn more about the test and take the test [here](https://bigfive-test.com/).
+charts, dendrograms, bar plots and PCA plots using dummy data of the Big Five Personality Test. It is a free, open-source test consisting of 120 simple questions. You can learn more about it and take the test [here](https://bigfive-test.com/).
 
 ## 1. Take a look at the `data`
 
