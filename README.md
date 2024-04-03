@@ -157,5 +157,5 @@ plor when all items are shown.
 
 ![](README_files/figure-gfm/unnamed-chunk-16-1.png)<!-- -->
 
-All the `Rdata` and `.R` scripts to generate the example plots are
+All the `.Rdata` and `.R` scripts to generate the example plots are
 available in the folder.
