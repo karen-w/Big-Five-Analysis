@@ -1,0 +1,137 @@
+---
+title: "Big Five Analysis"
+output:
+  github_document
+---
+
+This is an example showing how to generate various plots including radar charts, dendrograms, bar plots and PCA using dummy data of the Big Five Personality Test. The Big Five Personality Test is a free, open-source test consisting of 120 simple questions. You can take the test through this [link](https://bigfive-test.com/) and learn more about the test there. Here is the original publication [Johnson, J. A. (2014)](https://doi.org/10.1016/j.jrp.2014.05.003).
+
+## 1. Take a look at the `data`
+
+The example data is available in `data.Rdata`. You can load the file with `load()`.
+
+```{r, eval=FALSE}
+load("data.Rdata")
+```
+
+It can also be loaded from the original google sheet with the `googlesheets4` package.
+
+```{r, eval=FALSE}
+library(googlesheets4)
+data <- read_sheet("https://docs.google.com/spreadsheets/d/1ZE0DmZfJcgQ_K_1jsta_OAVmADc8z5F_aLhJlEk7CZU/edit#gid=0")
+```
+
+After the dummy data is loaded into the R environment, we can have a look on it.
+
+```{r echo = FALSE, results = 'axis'}
+library(knitr)
+load("data.Rdata")
+knitr::kable(data[1:9,])
+```
+
+Each row corresponds to a sample. The 5 columns after `Sample no.` correspond to the 5 big categories of the test: `Neuroticism`, `Extraversion`, `Openness To Experience`, `Agreeableness` and `Conscientiousness`.
+
+The other columns are the 6 sub-categories under each of the 5 big items.
+
+## 2. Generate radar chart for each sample
+
+You may wish to generate a radar chart with [`ggradar`](https://github.com/ricardo-bion/ggradar). In this exercise, the original code of `ggradar` has been modified. The modified codes are available in the folder `ggradar_edit`.
+
+With the function `gen_radar()`, a radar plot with the 5 big items is generated. Below shows an example using sample no. 1. Aesthetics can be changed in the source code `1_gen_radar.R`. For simplicity, the 5 items are abbreviated with their initials.
+
+```{r, eval=FALSE}
+load("radar.Rdata")
+radar_list_titleT[[1]]
+```
+
+```{r echo = FALSE, results = 'axis'}
+load("radar.Rdata")
+radar_list_titleT[[1]]
+```
+
+Below shows the radar plots for all samples.
+
+```{r, eval=FALSE}
+library(gridExtra)
+grid.arrange(grobs = radar_list_titleT, nrow = 3, padding = unit(0, "line"))
+```
+
+```{r echo = FALSE, results = 'axis'}
+library(gridExtra)
+grid.arrange(grobs = radar_list_titleT, nrow = 3, padding = unit(0, "line"))
+```
+
+## 3. Cluster samples into groups
+
+Using the `gen_dendro()` function, you can cluster the samples using the 5 big items or the sub-categories (`cat`); as well as the number of groups (`clus_k`).
+
+```{r, eval=FALSE}
+load("dendrogram.Rdata")
+```
+
+Here are the resulting dendrograms using the two sets of items. The shape corresponds to the group each sample belongs. You may notice that there are slight differences in the groupings.
+
+```{r echo = FALSE, results = 'axis'}
+library(ggplot2)
+load("dendrogram.Rdata")
+grid.arrange(dendro_list[[1]] + ggtitle("5 Categories"), dendro_list[[2]] + ggtitle("30 Sub-categories"), nrow = 1)
+```
+
+## 4. Bar plots
+
+With the `gen_bar()` function , the bar-plots for each sub-categories of the samples can be visualized.
+
+```{r, eval=FALSE}
+load("bar.Rdata")
+```
+
+Here are the resulting dendrograms using the two sets of items.
+
+```{r echo = FALSE, results = 'axis'}
+#library(ggplot2)
+load("bar.Rdata")
+bar_list
+```
+
+## 5. PCA
+
+PCA plots can be generated with the `gen_PCA()` function. By setting `LoadTF = TRUE`, you can opt to show the loadings in the plot. `n_load`
+
+```{r, eval=FALSE}
+load("PCA.Rdata")
+```
+
+These are the PCA for the big five items with and without showing loadings of each item.
+
+```{r echo = FALSE, results = 'axis'}
+#library(ggplot2)
+load("PCA.Rdata")
+PCA_cat1[[1]]
+PCA_cat1[[2]]
+```
+
+Below shows the PCA based on the sub-categories without loadings of the items.
+
+```{r echo = FALSE, results = 'axis'}
+#library(ggplot2)
+load("PCA.Rdata")
+PCA_cat2[[1]]
+```
+
+When `LoadTF = TRUE` and `n_load` is set at `10`. The plot looks like this:
+
+```{r echo = FALSE, results = 'axis'}
+#library(ggplot2)
+load("PCA.Rdata")
+PCA_cat2[[2]][[1]]
+```
+
+Each item is shaded according to their big 5 categories. Here is the plor when all items are shown.
+
+```{r echo = FALSE, results = 'axis'}
+#library(ggplot2)
+load("PCA.Rdata")
+PCA_cat2[[2]][[5]]
+```
+
+All the `Rdata` and `.R` scripts to generate the example plots are available in the folder.
